@@ -1214,10 +1214,14 @@ impl<'a, Storage: driver::Storage> Filesystem<'a, Storage> {
 
         #[cfg(test)]
         println!("creating {:?}", path);
+        assert!(self.alloc.try_borrow_mut().is_ok());
+        let mut alloc = self.alloc.borrow_mut();
         let return_code = unsafe { ll::lfs_mkdir(
-            &mut self.alloc.borrow_mut().state,
+            &mut alloc.state,
             path.as_ptr(),
         ) };
+        drop(alloc);
+        assert!(self.alloc.try_borrow_mut().is_ok());
         io::result_from((), return_code)
     }
 

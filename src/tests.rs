@@ -49,6 +49,18 @@ ram_storage!(
 );
 
 #[test]
+fn test_rust_1_67_0() {
+    let mut backend = OtherRam::default();
+    let mut storage = OtherRamStorage::new(&mut backend);
+
+    Filesystem::format(&mut storage).unwrap();
+    Filesystem::mount_and_then(&mut storage, |fs| {
+        fs.create_dir(b"/tmp\0".try_into().unwrap()).unwrap();
+        Ok(())
+    }).unwrap();
+}
+
+#[test]
 fn version() {
     assert_eq!(crate::version().format, (2, 0));
     assert_eq!(crate::version().backend, (2, 2));
