@@ -52,3 +52,7 @@ log-error = []
 # member `char name[LFS_NAME_MAX+1]`.
 # This means that if we change `traits::Storage::FILENAME_MAX_PLUS_ONE`,
 # we need to pass this on!
+
+
+[patch.crates-io]
+littlefs2-sys = { git = "https://github.com/sosthene-nitrokey/littlefs2-sys.git", rev = "71acedbc26d30359f31132937c6c07319cfe08a6"}  
